@@ -58,7 +58,7 @@ const Menu = (props) => {
     const translate = useTranslate();
     const open = useSelector((state) => state.admin.ui.sidebarOpen);
     const pathname = useSelector((state) => state.router.location.pathname);
-    const resources = resources || useSelector(getResources, shallowEqual);
+    const resources2 = resources || useSelector(getResources, shallowEqual);
     const hasList = (resource) => (resource.hasList);
 
     const handleToggle = (parent) => {
@@ -73,11 +73,11 @@ const Menu = (props) => {
         /**
          * This function is not directly used anywhere
          * but is required to fix the following error:
-         * 
+         *
          * Error: Rendered fewer hooks than expected.
          * This may be caused by an accidental early
          * return statement.
-         * 
+         *
          * thrown by RA at the time of rendering.
          */
         theme.breakpoints.down('xs')
@@ -99,7 +99,7 @@ const Menu = (props) => {
          * i.e. has no parents defined. Needed as
          * these resources are supposed to be rendered
          * as is
-         *  
+         *
          */
         resource.options &&
         !resource.options.hasOwnProperty('menuParent') &&
@@ -172,7 +172,7 @@ const Menu = (props) => {
         >
             {
                 // eslint-disable-next-line
-                resources
+                resources2
                     .filter((resource) => isChildOfParent(resource, parentResource) && hasList(resource))
                     .map((childResource) => { return MenuItem(childResource); })
             }
@@ -197,7 +197,7 @@ const Menu = (props) => {
      * Initialise all parents to inactive first.
      * Also find the active resource name.
      */
-    resources.forEach(resource => {
+    resources2.forEach(resource => {
         if (isParent(resource)) {
             initialExpansionState[resource.name] = false;
         } else if (pathname.startsWith(`/${resource.name}`) && resource.options.hasOwnProperty('menuParent')) {
@@ -217,7 +217,7 @@ const Menu = (props) => {
      * Looping over all resources and pushing the menu tree
      * for rendering in the order we find them declared in
      */
-    resources.forEach(r => {
+    resources2.forEach(r => {
         if (isParent(r)) resRenderGroup.push(mapParentStack(r));
         if (isOrphan(r)) resRenderGroup.push(mapIndependent(r));
     });
